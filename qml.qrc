@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Menu.qml</file>
+        <file>Score.qml</file>
+        <file>GameColumn.qml</file>
+        <file>GameBoard.qml</file>
+        <file>main.js</file>
+        <file>SplashScreen.qml</file>
+        <file>Title.qml</file>
+        <file>Info.qml</file>
+        <file>DialogBox.qml</file>
+    </qresource>
+</RCC>
