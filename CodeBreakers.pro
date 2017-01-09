@@ -1,16 +1,32 @@
-TEMPLATE = app
+# This is the basic qmake template for the Ubuntu-SDK
+# it handles creation and installation of the manifest
+# file and takes care of subprojects
+TEMPLATE = subdirs
 
-QT += qml quick
-CONFIG += c++11
+SUBDIRS += codebreakers
 
-SOURCES += main.cpp
+# enables/disabled the extra targets to build a snapcraft package
+# also tells the IDE this is a snapcraft project
+CONFIG += snapcraft
 
-RESOURCES += qml.qrc
+snapcraft {
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+    SNAPCRAFT_FILE=snapcraft.yaml
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+    #the Ubuntu SDK IDE uses the snap target to create the package
+    snappy.target = snap
+    snappy.commands = cd $$OUT_PWD
+    snappy.commands += && rm -rf '$$OUT_PWD/snap-deploy'
+    snappy.commands += && make INSTALL_ROOT=$$OUT_PWD/snap-deploy install
+    snappy.commands += && cd $$OUT_PWD/snap-deploy
+    snappy.commands += && snapcraft
+
+    OTHER_FILES+=$$SNAPCRAFT_FILE
+    QMAKE_EXTRA_TARGETS += snappy
+
+    packaging.files = $$SNAPCRAFT_FILE
+    packaging.path  = /
+
+    INSTALLS+=packaging
+}
+

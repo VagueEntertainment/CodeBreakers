@@ -1,0 +1,23 @@
+name: codebreakers
+version: 0.01
+summary: Example application
+description: Shows a basic UITK based UI
+confinement: strict
+
+apps:
+  codebreakers:
+    command: codebreakers.wrapper
+    plugs: [unity7, opengl]
+
+parts:
+  codebreakers:
+    plugin: dump
+    source: deploy/
+    stage-packages:
+      - ubuntu-sdk-libs
+      - qtubuntu-desktop
+      - qtmir-desktop
+      - mir-graphics-drivers-desktop
+
+
+
