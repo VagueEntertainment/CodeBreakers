@@ -6,11 +6,6 @@ Item {
 
 
 
-
-
-
-
-
         Text {
             id:title
             anchors.top:parent.top
@@ -45,6 +40,7 @@ Item {
             }
 
             Image {
+                id:sys76
                 x:-width /2
                 y:-height /2
                 height:parent.height * 0.8
@@ -59,14 +55,27 @@ Item {
                     anchors.bottomMargin: parent.height * 0.1
                     font.pixelSize: parent.height * 0.2
                 }
+
+
             }
+
+            DropShadow {
+                   anchors.fill: sys76
+                   horizontalOffset: 10
+                   verticalOffset: 10
+                   radius: 8.0
+                   samples: 17
+                   color: "#80000000"
+                   source: sys76
+
+               }
         }
 
 
         Column {
             id:options
             anchors.top:title.bottom
-            anchors.topMargin: parent.height * 0.2
+            anchors.topMargin: parent.height * 0.1
              //anchors.horizontalCenter: parent.horizontalCenter
             anchors.left:parent.left
             anchors.leftMargin:-parent.height * 0.1
@@ -124,7 +133,7 @@ Item {
     }
 
 
-    Image {
+   /* Image {
        // anchors.horizontalCenter: parent.horizontalCenter
         width:parent.width * 0.7
         height:window_container.height * 0.08
@@ -139,7 +148,12 @@ Item {
             font.family: pixeltext.name
             color:'white'
         }
-    }
+
+        MouseArea {
+            anchors.fill:parent
+            onClicked: Qt.quit()
+        }
+    }*/
 
     }
 
