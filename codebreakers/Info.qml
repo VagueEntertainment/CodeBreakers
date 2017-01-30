@@ -5,6 +5,7 @@ Item {
     id:window_container
 
     property string message: "level:"
+    property int played: 0
 
     states: [
         State {
@@ -57,7 +58,7 @@ Item {
         running:false
         repeat:false
         interval:400
-        onTriggered: window_container.state = "Hide"
+        onTriggered: window_container.state = "Hide",played = 1
     }
 
 

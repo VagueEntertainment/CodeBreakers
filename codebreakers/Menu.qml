@@ -71,31 +71,61 @@ Item {
                }
         }
 
+        Text {
+            anchors.top:title.top
+            anchors.left:title.right
+            rotation: 35
+            text:"Demo"
+            color:"Orange"
+            font.pixelSize: parent.height * 0.1
+        }
+
 
         Column {
             id:options
             anchors.top:title.bottom
             anchors.topMargin: parent.height * 0.1
-             //anchors.horizontalCenter: parent.horizontalCenter
-            anchors.left:parent.left
-            anchors.leftMargin:-parent.height * 0.1
+             anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.left:parent.left
+            //anchors.leftMargin:-parent.height * 0.1
              width:parent.width* 0.7
              height: parent.height * 0.6
              spacing:parent.height * 0.03
+             clip:true
+
+
+             Image {
+                // anchors.horizontalCenter: parent.horizontalCenter
+                 width:parent.width * 0.9
+                 height:window_container.height * 0.1
+                 source:"qrc:Img/Border3.png"
+
+                clip:true
+
+                 Text {
+                     anchors.centerIn: parent
+                     text: "story mode"
+                     font.pixelSize: parent.height * 0.5
+                     font.family: pixeltext.name
+                     color:'gray'
+                 }
+             }
+
 
 
     Image {
        // anchors.horizontalCenter: parent.horizontalCenter
-        width:parent.width * 0.9
+        width:parent.width * 0.8
         height:window_container.height * 0.1
         source:"qrc:Img/Border3.png"
 
 
+        clip:true
 
         Text {
             anchors.centerIn: parent
-            text: "play"
-            font.pixelSize: parent.height * 0.8
+            text: "challenge"
+            font.pixelSize: parent.height * 0.5
             font.family: pixeltext.name
             color:'white'
         }
@@ -107,53 +137,37 @@ Item {
     }
 
 
+
+    Item {
+        //anchors.horizontalCenter: parent.horizontalCenter
+        width:parent.width * 0.9
+        height:window_container.height * 0.06
+
+
+    }
+
+
     Image {
-       // anchors.horizontalCenter: parent.horizontalCenter
-        width:parent.width * 0.8
+        //anchors.horizontalCenter: parent.horizontalCenter
+        width:parent.width * 0.7
         height:window_container.height * 0.08
         source:"qrc:Img/Border3.png"
 
-
+        clip:true
 
         Text {
             anchors.centerIn: parent
             text: "settings"
             font.pixelSize: parent.height * 0.5
             font.family: pixeltext.name
-            color:'white'
-        }
-    }
-
-    Item {
-        //anchors.horizontalCenter: parent.horizontalCenter
-        width:parent.width * 0.9
-        height:window_container.height * 0.08
-
-
-    }
-
-
-   /* Image {
-       // anchors.horizontalCenter: parent.horizontalCenter
-        width:parent.width * 0.7
-        height:window_container.height * 0.08
-        source:"qrc:Img/Border3.png"
-
-
-
-        Text {
-            anchors.centerIn: parent
-            text: "exit"
-            font.pixelSize: parent.height * 0.5
-            font.family: pixeltext.name
-            color:'white'
+            color:'gray'
         }
 
         MouseArea {
             anchors.fill:parent
             onClicked: Qt.quit()
         }
-    }*/
+    }
 
     }
 
@@ -169,12 +183,25 @@ Item {
            }
 
 
+        Text {
+            anchors.bottom:parent.bottom
+            anchors.left:parent.left
+            anchors.margins: parent.height * 0.02
+            width:parent.width * 0.8
+            wrapMode: Text.WordWrap
+            color:"white"
+            text: "Demo: This is a demo of Codebreakers from Vague Entertainment. As with many of our projects we alotted only one week to the creation of this game.
+            This is not to be considered a finished game but as the beginings of a much larger project. In this demo you have 16 levels of code breaking fun.
+                In future versions there will be multiple stages with various puzzle types to solve."
+        }
+
+
 Image {
     anchors.bottom:parent.bottom
     anchors.right:parent.right
     source:"Img/logo1-alpha.png"
     fillMode: Image.PreserveAspectFit
-    width:parent.width * 0.1
+    width:parent.width * 0.2
 
 }
 

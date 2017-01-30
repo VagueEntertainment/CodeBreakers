@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import QtMultimedia 5.5
 import "main.js" as Scripts
 
 Item {
@@ -7,8 +8,11 @@ Item {
 
     property var colors: [0]
     property int executeEnable: 0
+    property int islocked: 1
 
-onVisibleChanged: if(visible == true) {generateCode.running = true}
+onVisibleChanged: if(visible == true) {Scripts.loadhi(),generateCode.running = true} else { Scripts.cleargame();}
+
+onIslockedChanged: if(islocked == 1) {lock.state = "locked"} else {lock.state = "unlocked"}
 
     Timer {
         id:generateCode
@@ -21,18 +25,91 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
 
     Image {
         id:backing
-        anchors.left:parent.left
+        anchors.left:columns.left
+        anchors.right:columns.right
         anchors.top:parent.top
         height:parent.height
-        width:parent.width * 1.12
-        source:"qrc:/Img/Border1.png"
+        anchors.leftMargin:-parent.height * 0.02
+        anchors.rightMargin:-parent.height * 0.02
+
+        source:if(level > 10) {"qrc:/Img/Border1r.png"} else {if(level > 5) {"qrc:/Img/Border1y.png"} else {"qrc:/Img/Border1.png"} }
+        visible: false
     }
+
+    Image {
+        id:lockbacking
+        source:"qrc:/Img/s1lock.png"
+        width:s1_locks.width
+        height:s1_locks.height * 1.3
+        anchors.centerIn: s1_locks
+        opacity: 1
+    }
+    DropShadow {
+        source:lockbacking
+        anchors.fill: lockbacking
+        horizontalOffset: 5
+        verticalOffset: 5
+        radius: 8.0
+        samples: 17
+        color: "#80000000"
+
+    }
+
+    Column {
+        id:s1_locks
+
+        anchors.top:backing.top
+        anchors.left:backing.right
+        anchors.topMargin: parent.height * 0.35
+        anchors.leftMargin:parent.width * 0.49
+        width:parent.height * 0.08
+        height:parent.height * 0.35
+        spacing:parent.height * 0.004
+        //clip:true
+
+        Repeater {
+            model:17
+
+            Item {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width:parent.height * 0.1
+                height:parent.height * 0.05
+
+            Rectangle {
+                id:locklight
+                width:parent.width
+                height:parent.height
+                border.width:parent.height * 0.08
+                border.color: "black"
+                color: if(level > index+1) {"green"} else {"darkgreen"}
+                opacity: 0.3
+
+
+            }
+
+            Glow {
+                source: locklight
+                radius: 5
+                samples: 17
+                color:"lightgreen"
+                anchors.fill: locklight
+                visible: if(level > index+1) {true} else {false}
+                opacity: 0.9
+            }
+
+        }
+        }
+
+    }
+
+
 
     Glow {
         samples: 17
         radius: 8
         source:backing
         anchors.fill: backing
+        opacity: 0.5
     }
 
     DropShadow {
@@ -43,9 +120,57 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
            samples: 17
            color: "#80000000"
            source: backing
+           opacity:0.5
        }
 
     Image {
+        id:lock
+        states: [
+            State {
+                name:"locked"
+                PropertyChanges {
+                    target:lock
+                    opacity:0.3
+                    scale:1
+                }
+            },
+
+            State {
+                name:"unlocked"
+                PropertyChanges {
+                    target: lock
+                    opacity:0.0
+                    scale:2
+                }
+            }
+        ]
+        transitions: [
+
+            Transition {
+                from: "unlocked"
+                to: "locked"
+                reversible: true
+
+                NumberAnimation {
+                    target: lock
+                    property: "opacity"
+                    duration: 100
+                    easing.type: Easing.InOutQuad
+                }
+
+
+                NumberAnimation {
+                    target: lock
+                    property: "scale"
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                }
+
+            }
+
+        ]
+
+        state:"unlocked"
         anchors.fill:columns
         source:"qrc:/Img/lock.png"
         fillMode:Image.PreserveAspectFit
@@ -104,8 +229,10 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
         id:codeBlock
         anchors.left:columns.left
         //anchors.leftMargin:parent.height * 0.01
-        anchors.topMargin: parent.height * 0.043
-        anchors.top:columns.bottom
+        //anchors.topMargin: parent.height * 0.043
+       // anchors.top:columns.bottom
+        anchors.bottom:parent.bottom
+        anchors.bottomMargin: parent.height * 0.043
         height:board.width / numofcolumns
         width: board.width
        // source:"qrc:/Img/Border3.png"
@@ -121,6 +248,7 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
             width:parent.width
             height:parent.height
             orientation:Qt.Horizontal
+            visible: if(gameBoard.islocked == 1 && infoWindow.played == 1) {true} else {false}
 
 
             model: codeEntry
@@ -132,16 +260,26 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
                 height:parent.height
                 incell: colorpicked
                 iscorrect:correct
+                incolumn:0
 
 
                 MouseArea {
+                    id:tileclick
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     anchors.fill:parent
-                    enabled: if(correct == 0) {true} else {false}
-                    onClicked:  { if( parent.incell != 7) {parent.incell = parent.incell + 1} else {parent.incell = 0}
+                    enabled: if(correct == 0 && gameBoard.islocked == 1 && infoWindow.played == 1) {true} else {false}
+                    onPressed:  { if(tileclick.pressedButtons == Qt.RightButton) {
+                                    if( parent.incell != maxcolors) {parent.incell = parent.incell + 1} else {parent.incell = 1}
+                        } else {
+                            if( parent.incell > 1) {parent.incell = parent.incell - 1} else {parent.incell = maxcolors}
+                        }
 
+                        //console.log(tileclick.pressedButtons);
                         colors[index] = parent.incell;
                         Scripts.check(colors);
+                        select.play();
                     }
+
 
 
 
@@ -160,11 +298,12 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
         height:units.gu(10)
         width: units.gu(30)
         //color: if(executeEnable == 1) {"gray"} else {"lightgray"}
-        source:"qrc:/Img/Border3.png"
+        source:if(level > 10) {"qrc:/Img/Border3r.png"} else {if(level > 5) {"qrc:/Img/Border3y.png"} else {"qrc:/Img/Border3.png"} }
         //fillMode: Image.PreserveAspectFit
         mirror:true
         rotation: 90
         clip:true
+        visible: false
 
         Text {
             anchors.centerIn: parent
@@ -175,11 +314,22 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
 
         }
 
-        MouseArea {
-            enabled: executeEnable
-            anchors.fill:parent
-            onClicked:Scripts.execute(colors)
-    }
+
+
+        SoundEffect {
+            id:execSound
+            source:"qrc:/Sounds/220166__gameaudio__button-confirm-spacey.wav"
+            volume: 1
+
+
+        }
+
+        SoundEffect {
+            id:select
+            source:"qrc:/Sounds/220181__gameaudio__computer-beep-1.wav"
+            volume:0.2
+        }
+
 
     }
 
@@ -192,6 +342,7 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
            color: "#80000000"
            source: exebutton
            rotation: 90
+           opacity: 0.7
        }
 
     Glow {
@@ -201,7 +352,16 @@ onVisibleChanged: if(visible == true) {generateCode.running = true}
         radius:5
         rotation: 90
         visible: if(executeEnable == 1) {true} else {false}
+        opacity: 0.7
+
+        MouseArea {
+            enabled: executeEnable
+            anchors.fill:parent
+            onClicked:Scripts.execute(colors),execSound.play()
     }
+    }
+
+
 
 
 

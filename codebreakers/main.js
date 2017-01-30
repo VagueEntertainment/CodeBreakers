@@ -1,4 +1,6 @@
 
+
+
 function execute(colors) {
 
    // console.log(numofcolumns,colors);
@@ -113,11 +115,27 @@ function fillLine(printindex) {
 
 function createCode() {
 
-   if(level < 10) { numofcolumns = 4;} else if(level < 20) { numofcolumns = 6;} else if (level < 40) {numofcolumns = 8;}
+   if(level < 6) { numofcolumns = 4;} else if(level < 11) { numofcolumns = 6;} else if (level < 16) {numofcolumns = 8;}
 
    for(var num = 0;num < numofcolumns;num = num+1) {
-       code[num] = Math.floor((Math.random() * 7) + 1);
+
+       switch(level) {
+       case 1:code[num] = Math.floor((Math.random() * 3) + 1);maxcolors = 3;break;
+       case 2:code[num] = Math.floor((Math.random() * 4) + 1);maxcolors = 4;break;
+       case 3:code[num] = Math.floor((Math.random() * 5) + 1);maxcolors = 5;break;
+       case 4:code[num] = Math.floor((Math.random() * 6) + 1);maxcolors = 6;break;
+       case 5:code[num] = Math.floor((Math.random() * 7) + 1);maxcolors = 7;break;
+       default:code[num] = Math.floor((Math.random() * 7) + 1);maxcolors = 7;break;
+       }
    }
+
+   if(level == 17) {
+        gameBoard.visible = false;
+        endScreen.visible = true;
+       talkingBox.visible = false;
+       scoreBoard.visible = false;
+       level = 0;
+    }
 
 }
 
@@ -149,12 +167,14 @@ function checkscore(colors) {
 
 
     if (colors.toString() == code.toString()) {
-        console.log ("WINNER");
+        //console.log ("WINNER");
         if (turn < numofcolumns) {
             score = score + (100*((numofcolumns*2) -turn));
         }
         nextlevel();
     }
+
+    colors = [0];
 
 }
 
@@ -173,11 +193,15 @@ function nextlevel() {
 
     turn = 1;
 
-    infoWindow.state = "Show"
+    //infoWindow.state = "Show"
 
     createCode();
     fillCodeEntry();
+    infoWindow.played = 0;
     previous = [0];
+    colors = [0];
+    gameBoard.islocked = 0;
+
 
 
 }
@@ -188,8 +212,8 @@ function fillCodeEntry() {
 
     while(num < numofcolumns) {
 
-        if(previous[num] > 0 ) {codeEntry.append({colorpicked:previous[num],correct:1});} else
-        {codeEntry.append({colorpicked:previous[num],correct:0});}
+        if(previous[num] > 0 ) {codeEntry.append({colorpicked:previous[num],correct:1,incolumn:0});} else
+        {codeEntry.append({colorpicked:previous[num],correct:0,incolumn:0});}
 
         num = num + 1;
     }
@@ -210,4 +234,146 @@ function clearColumns() {
 
     }
 
+}
+
+function others(color) {
+        var num = 0;
+
+    while(num < numofcolumns) {
+
+        if(color == code[num]) {
+            dupls = dupls +1;
+        }
+
+        num = num +1;
+    }
+}
+
+function nextLine() {
+    switch(level) {
+    case 1: message = "hello there. this should be easy...even for a human.";emotion = 1;messagedur = 6000;break;
+    case 2: message = "well done! lets make this more interesting and add more colors!!!";emotion = 2;messagedur = 6000;break;
+    case 3: message = "so you want to make me work huh? very well human. more colors!!!!";emotion = 3;messagedur = 7000;break;
+    case 4: message = "more colors!!!!";emotion = 2;messagedur = 4000;break;
+    case 5: message = "you're almost computer like!!";emotion = 5;messagedur = 4000;break;
+    case 6: message = "this will stop you, for sure"; emotion = 1;messagedur = 4000;break;
+    case 7: message = "how can this be!!!"; emotion = 6;messagedur = 4000;break;
+
+    case 8: message = "i shouldn't be upset, i should be happy...";emotion = 1;messagedur = 6000;break;
+    case 9: message = "see...happy...i'm happy for you";emotion = 5;messagedur = 6000;break;
+    case 10: message = "did you know there are still 6 more croma locks after this one";emotion = 1;messagedur = 7000;break;
+    case 11: message = "you should just stop while you're ahead";emotion = 4;messagedur = 4000;break;
+    case 12: message = "hey i have an idea...stop and i'll give you whatever money i have on me";emotion = 5;messagedur = 6000;break;
+    case 13: message = "this will stop you, for sure"; emotion = 1;messagedur = 4000;break;
+    case 14: message = "how can this be?!!!"; emotion = 6;messagedur = 4000;break;
+    default: message = "i told them that croma locks were a bad idea"; emotion = 6;messagedur = 4000;break;
+
+
+}
+
+}
+
+function scoreboardSave(name,score) {
+
+    var d = new Date();
+
+    var date = d.getDate()+"/"+d.getMonth() + 1+"/"+d.getFullYear()+"::"+d.getHours()+":"+d.getMinutes();
+
+    var userStr = "INSERT INTO SCORES VALUES(?,?,?)";
+    var data = [name,score,date];
+
+    var testStr = "SELECT * FROM SCORES WHERE name = '"+name+"' AND date = '"+date+"'";
+
+
+    db.transaction(function(tx) {
+       //tx.executeSql("DROP TABLE Card");
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SCORES(name TEXT, score INT,date TEXT)');
+
+
+                    var test = tx.executeSql(testStr);
+
+
+                        if(test.rows.length == 0) {
+
+                            tx.executeSql(userStr, data);
+                        } else {
+
+                        //tx.executeSql(updateUser);
+                            }
+
+    });
+
+    scoreboardLoad();
+
+}
+
+function scoreboardLoad() {
+
+   // var userStr = "INSERT INTO Card VALUES(?,?,?)";
+   // var data = [name,score,date];
+    scores.clear();
+
+    db.transaction(function(tx) {
+       //tx.executeSql("DROP TABLE Card");
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SCORES(name TEXT, score INT,date TEXT)');
+        var testStr = "SELECT * FROM SCORES WHERE 1 ORDER BY score DESC"
+        var pull =  tx.executeSql(testStr);
+       var num = 0;
+
+
+
+           while (pull.rows.length > num) {
+
+                   if(num == 0) {
+                       name = pull.rows.item(num).name;
+                       hiscore = pull.rows.item(num).score;
+                   }
+
+                   scores.append ({
+
+                                        thename:pull.rows.item(num).name,
+                                        thedate:pull.rows.item(num).date.split("::")[0],
+                                        thescore:pull.rows.item(num).score
+                                         });
+
+
+               num = num + 1;
+           }
+
+    });
+
+}
+
+function loadhi() {
+
+    db.transaction(function(tx) {
+       //tx.executeSql("DROP TABLE Card");
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SCORES(name TEXT, score INT,date TEXT)');
+        var testStr = "SELECT * FROM SCORES WHERE 1 ORDER BY score DESC"
+        var pull =  tx.executeSql(testStr);
+       var num = 0;
+
+                       name = pull.rows.item(num).name;
+                       hiscore = pull.rows.item(num).score;
+
+
+    });
+
+}
+
+function cleargame() {
+
+    reset = 0;
+    numofcolumns = 6;
+    turn= 0;
+    level= 0;
+    maxcolors= 3;
+
+    score= 0;
+    hiscore=0;
+    combo=1;
+    previous= [0];
+
+
+    code = [0];
 }

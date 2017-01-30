@@ -19,9 +19,31 @@
         <file>Img/Border2.png</file>
         <file>Img/Border3.png</file>
         <file>Img/Grid.png</file>
-        <file>Img/BeatBox1.png</file>
         <file>Font/ROBOTICA.TTF</file>
         <file>Img/columnlock.gif</file>
         <file>Img/RB1.png</file>
+        <file>Img/RB/BeatBox_Happy.png</file>
+        <file>Img/RB/BeatBox_Happy_Pointing.png</file>
+        <file>Img/RB/BeatBox_Open_Pointing.png</file>
+        <file>Img/RB/BeatBox_Open.png</file>
+        <file>Img/RB/BeatBox_Angry_HandsOut.png</file>
+        <file>Img/RB/BeatBox_Angry_HandsUp.png</file>
+        <file>Img/RB/BeatBox_Confused_HandsOut.png</file>
+        <file>Img/RB/BeatBox_Confused_HandsUp.png</file>
+        <file>Img/RB/BeatBox_Happy_HandsUp.png</file>
+        <file>Img/Border1y.png</file>
+        <file>Img/Border1r.png</file>
+        <file>EndScreen.qml</file>
+        <file>Sounds/220166__gameaudio__button-confirm-spacey.wav</file>
+        <file>Sounds/220181__gameaudio__computer-beep-1.wav</file>
+        <file>Sounds/269184__mickleness__chat-message-5-trade-mine.mp3</file>
+        <file>Img/Border-base.png</file>
+        <file>Img/Border2r.png</file>
+        <file>Img/Border2y.png</file>
+        <file>Img/Border3r.png</file>
+        <file>Img/Border3y.png</file>
+        <file>Img/background-s1.png</file>
+        <file>Img/s1lock.png</file>
+        <file>Img/edit.svg</file>
     </qresource>
 </RCC>

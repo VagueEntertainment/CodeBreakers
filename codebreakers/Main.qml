@@ -1,5 +1,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import QtQuick.LocalStorage 2.0 as Sql
+
 import "main.js" as Scripts
 
 /*!
@@ -15,11 +17,12 @@ MainView {
     width: units.gu(175)
     height: units.gu(150)
 
-
+    property var db : Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
     property int reset: 0
     property int numofcolumns: 6
     property int turn: 0
     property int level: 0
+    property int maxcolors: 3
 
     property int score: 0
     property int hiscore:0
@@ -38,7 +41,11 @@ MainView {
     property var column6: [0]
     property var column7: [0]
 
+    property string name: "ABC"
+    property string date: "No Date"
 
+
+    onLevelChanged:talkingBox.level = level
 
 
     FontLoader { id: pixeltext; source: "qrc:/Font/ROBOTICA.TTF" }
@@ -57,6 +64,7 @@ MainView {
         }
 
         Background1 {
+            id:bg
             width:parent.width
             height:parent.height
         }
@@ -75,7 +83,7 @@ MainView {
             height:parent.height
             visible:false
 
-            onVisibleChanged: if(visible == true) {gameBoard.visible = true} else {GameBoard.visible = false}
+            onVisibleChanged: if(visible == true) {gameBoard.visible = true} else {gameBoard.visible = false}
 
         GameBoard {
             id:gameBoard
@@ -105,7 +113,7 @@ MainView {
 
 
     DialogBox {
-
+        id:talkingBox
         width:parent.width
         height:parent.height / 2
 
@@ -118,10 +126,43 @@ MainView {
     Info {
         id:infoWindow
         anchors.horizontalCenter: parent.horizontalCenter
-        width:parent.width * 0.8
-        height:parent.height * 0.5
+        width:parent.width * 0.6
+        height:parent.height * 0.3
         state:"Hide"
     }
+
+        }
+
+        EndScreen {
+            id:endScreen
+            anchors.fill: parent
+            visible: false
+        }
+
+        Rectangle {
+            anchors.bottom:bg.bottom
+            anchors.bottomMargin: bg.height * 0.01
+            anchors.right: bg.right
+            anchors.rightMargin: bg.height * 0.04
+            width:bg.height * 0.1
+            height:bg.height * 0.05
+            border.color:"Yellow"
+            border.width:parent.height * 0.001
+            color:"#0FFFFFFF"
+            radius:5
+
+            Text {
+                anchors.centerIn: parent
+                font.family: pixeltext.name
+                color:"Yellow"
+                font.pixelSize: parent.height * 0.5
+                text: "back"
+            }
+
+            MouseArea {
+                anchors.fill:parent
+                onClicked: game.visible = false,mainMenu.visible = true
+            }
 
         }
 
@@ -210,6 +251,7 @@ MainView {
        /* ListElement {
             colorpicked:0
             correct:0
+            incolumn:0
         } */
 
     }

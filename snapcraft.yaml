@@ -1,13 +1,13 @@
 name: codebreakers
-version: 0.01
-summary: Example application
-description: Shows a basic UITK based UI
+version: 0.5.4
+summary: Guess the code and unlock RogueBot Central
+description: Game similar to mastermind, pit yourself against progressively harder codes as you try to unlock new areas, and puzzle types
 confinement: strict
 
 apps:
   codebreakers:
     command: codebreakers.wrapper
-    plugs: [unity7, opengl]
+    plugs: [unity7,opengl,x11,pulseaudio]
 
 parts:
   codebreakers:

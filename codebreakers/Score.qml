@@ -21,7 +21,7 @@ Item {
                 color:"white"
             }
             Text {
-                text: "turns:"+(turn-1)
+                text: "turn:"+(turn-1)
                 font.pixelSize: infoscreen.height * 0.08
                 font.family: pixeltext.name
                 color:"white"
@@ -37,14 +37,14 @@ Item {
         color:"white"
     }
 
-    Text {
+    /*Text {
         width:parent.width * 0.5
        // height:parent.height * 0.1
         text:"combo:"+combo+"x"
         font.pixelSize: parent.height * 0.08
         font.family: pixeltext.name
         color:"white"
-    }
+    } */
 
     Text {
         width:parent.width * 0.5

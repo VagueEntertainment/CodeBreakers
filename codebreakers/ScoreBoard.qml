@@ -6,18 +6,21 @@ Item {
 
    Image {
        id:backing
-    source:"qrc:/Img/Border2.png"
+       source:if(level > 10) {"qrc:/Img/Border2r.png"} else {if(level > 5) {"qrc:/Img/Border2y.png"} else {"qrc:/Img/Border2.png"} }
     width:parent.width * 0.9
     height:parent.height * 0.9
     anchors.centerIn: parent
-    opacity: 0.9
+    visible: false
    }
+
+
 
    Glow {
        anchors.fill:backing
        source:backing
        radius: 8
        samples: 17
+       opacity: 0.5
 
    }
 
@@ -29,7 +32,19 @@ Item {
           samples: 17
           color: "#80000000"
           source: backing
+           opacity: 0.5
       }
+
+   Image {
+        anchors.centerIn:backing
+        width:backing.width * 0.98
+        height:backing.height * 0.93
+        source:"qrc:Img/Grid.png"
+        fillMode: Image.Tile
+
+        opacity: 0.2
+
+    }
 
     Score {
         anchors.centerIn: parent
