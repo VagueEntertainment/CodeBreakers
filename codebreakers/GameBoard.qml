@@ -10,7 +10,7 @@ Item {
     property int executeEnable: 0
     property int islocked: 1
 
-onVisibleChanged: if(visible == true) {Scripts.loadhi(),generateCode.running = true} else { Scripts.cleargame();}
+onVisibleChanged: if(visible == true) {Scripts.loadhi(),generateCode.running = true} else {}
 
 onIslockedChanged: if(islocked == 1) {lock.state = "locked"} else {lock.state = "unlocked"}
 

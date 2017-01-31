@@ -352,10 +352,10 @@ function loadhi() {
         var testStr = "SELECT * FROM SCORES WHERE 1 ORDER BY score DESC"
         var pull =  tx.executeSql(testStr);
        var num = 0;
-
+                    if(pull.rows.length > 0) {
                        name = pull.rows.item(num).name;
                        hiscore = pull.rows.item(num).score;
-
+                    }
 
     });
 

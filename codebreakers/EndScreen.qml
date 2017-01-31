@@ -207,7 +207,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: endScreen.visible = false,mainMenu.visible = true
+            onClicked: Scripts.cleargame(),endScreen.visible = false,mainMenu.visible = true
         }
     }
 

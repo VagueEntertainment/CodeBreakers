@@ -1,5 +1,5 @@
 name: codebreakers
-version: 0.5.4.1
+version: 0.5.4.2
 summary: Guess the code and unlock RogueBot Central
 description: Game similar to mastermind, pit yourself against progressively harder codes as you try to unlock new areas, and puzzle types
 confinement: strict
