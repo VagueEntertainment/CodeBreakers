@@ -140,6 +140,7 @@ MainView {
         }
 
         Rectangle {
+            visible: if(gameBoard.visible == 1) {true} else {false}
             anchors.bottom:bg.bottom
             anchors.bottomMargin: bg.height * 0.01
             anchors.right: bg.right
@@ -148,7 +149,7 @@ MainView {
             height:bg.height * 0.05
             border.color:"Yellow"
             border.width:parent.height * 0.001
-            color:"#0FFFFFFF"
+            color:"#000000"
             radius:5
 
             Text {
