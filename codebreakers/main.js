@@ -130,11 +130,12 @@ function createCode() {
    }
 
    if(level == 17) {
-        gameBoard.visible = false;
+
         endScreen.visible = true;
-       talkingBox.visible = false;
-       scoreBoard.visible = false;
-       level = 0;
+
+
+       game.visible = false;
+
     }
 
 }
@@ -200,7 +201,7 @@ function nextlevel() {
     infoWindow.played = 0;
     previous = [0];
     colors = [0];
-    gameBoard.islocked = 0;
+    gameBoard1.islocked = 0;
 
 
 
@@ -277,15 +278,17 @@ function scoreboardSave(name,score) {
 
     var d = new Date();
 
-    var date = d.getDate()+"/"+d.getMonth() + 1+"/"+d.getFullYear()+"::"+d.getHours()+":"+d.getMinutes();
+    var date = d.getDate()+"/"+(d.getMonth() + 1)+"/"+d.getFullYear()+"::"+d.getHours()+":"+d.getMinutes();
 
-    var userStr = "INSERT INTO SCORES VALUES(?,?,?)";
+   // console.log(date);
+
+  /*  var userStr = "INSERT INTO SCORES VALUES(?,?,?)";
     var data = [name,score,date];
 
     var testStr = "SELECT * FROM SCORES WHERE name = '"+name+"' AND date = '"+date+"'";
 
 
-    db.transaction(function(tx) {
+   db.transaction(function(tx) {
        //tx.executeSql("DROP TABLE Card");
         tx.executeSql('CREATE TABLE IF NOT EXISTS SCORES(name TEXT, score INT,date TEXT)');
 
@@ -301,7 +304,36 @@ function scoreboardSave(name,score) {
                         //tx.executeSql(updateUser);
                             }
 
-    });
+    }); */
+
+
+    var http = new XMLHttpRequest();
+
+    var url = "http://openseed.vagueentertainment.com/devs/Vag-01001011/sys76Cod-0115/update.php";
+  // console.log(url)
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            //console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == 100) {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == 101) {
+                console.log("Incorrect AppID");
+            } else {
+                console.log(http.responseText);
+                //scores = http.responseText;
+
+            }
+
+        }
+    }
+    http.open('POST', url.trim(), true);
+    //http.send(null);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("devid=" + devId + "&appid=" + appId + "&mode=save" + "&game=" +gamemode+ "&name=" +name+ "&score=" +score+ "&date=" +date);
+
+
+
 
     scoreboardLoad();
 
@@ -313,7 +345,7 @@ function scoreboardLoad() {
    // var data = [name,score,date];
     scores.clear();
 
-    db.transaction(function(tx) {
+  /*  db.transaction(function(tx) {
        //tx.executeSql("DROP TABLE Card");
         tx.executeSql('CREATE TABLE IF NOT EXISTS SCORES(name TEXT, score INT,date TEXT)');
         var testStr = "SELECT * FROM SCORES WHERE 1 ORDER BY score DESC"
@@ -340,13 +372,61 @@ function scoreboardLoad() {
                num = num + 1;
            }
 
-    });
+    }); */
+
+
+    var http = new XMLHttpRequest();
+
+    var url = "http://openseed.vagueentertainment.com/devs/Vag-01001011/sys76Cod-0115/update.php";
+   //console.log(url)
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            //console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == 100) {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == 101) {
+                console.log("Incorrect AppID");
+            } else {
+               // console.log(http.responseText);
+                var rawscores = http.responseText;
+                var num = 1;
+                while(rawscores.split(">!<").length > num ) {
+                    var lap1 = rawscores.split(">!<")[num];
+
+                    if(num == 1) {
+                      highestname = lap1.split(":retrieved:")[0];
+                      highestscore = lap1.split(":retrieved:")[1];
+                        console.log(highestname);
+                        console.log(highestscore);
+
+                    }
+                    scores.append ({
+
+                                         thename:lap1.split(":retrieved:")[0],
+                                         thedate:lap1.split(":retrieved:")[2].split("::")[0],
+                                         thescore:lap1.split(":retrieved:")[1]
+                                          });
+
+                    num = num + 1;
+                }
+
+            }
+
+        }
+    }
+    http.open('POST', url.trim(), true);
+    //http.send(null);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("devid=" + devId + "&appid=" + appId + "&mode=get" + "&game=" +gamemode);
+
+
 
 }
 
 function loadhi() {
 
-    db.transaction(function(tx) {
+   /* db.transaction(function(tx) {
        //tx.executeSql("DROP TABLE Card");
         tx.executeSql('CREATE TABLE IF NOT EXISTS SCORES(name TEXT, score INT,date TEXT)');
         var testStr = "SELECT * FROM SCORES WHERE 1 ORDER BY score DESC"
@@ -357,7 +437,35 @@ function loadhi() {
                        hiscore = pull.rows.item(num).score;
                     }
 
-    });
+    }); */
+
+
+
+        var http = new XMLHttpRequest();
+
+        var url = "http://openseed.vagueentertainment.com/devs/Vag-01001011/sys76Cod-0115/update.php";
+     //  console.log(url)
+        http.onreadystatechange = function() {
+            if (http.readyState == 4) {
+                //console.log(http.responseText);
+                //userid = http.responseText;
+                if(http.responseText == 100) {
+                    console.log("Incorrect DevID");
+                } else if(http.responseText == 101) {
+                    console.log("Incorrect AppID");
+                } else {
+                 //   console.log(http.responseText);
+                    var rawscores = http.responseText;
+                       hiscore = rawscores.split(">!<")[1].split(":retrieved:")[1];
+                }
+
+            }
+        }
+        http.open('POST', url.trim(), true);
+        //http.send(null);
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.send("devid=" + devId + "&appid=" + appId + "&mode=get" + "&game=" +gamemode);
+
 
 }
 
@@ -373,7 +481,17 @@ function cleargame() {
     hiscore=0;
     combo=1;
     previous= [0];
+    gamemode = -1;
 
 
     code = [0];
+}
+
+function startgame(game) {
+
+   switch (game) {
+   case game: gamemode = 0;gameBoard1.visible = true;break;
+   case game: gamemode = 1;gameBoard2.visible = true;break;
+   }
+
 }

@@ -22,7 +22,7 @@ Item {
         running:false
         interval:1000
         repeat:false
-        onTriggered: gameBoard.islocked =1,Scripts.nextLine(level),textBox.visible = true,dialog.running = true
+        onTriggered: gameBoard1.islocked =1,Scripts.nextLine(level),textBox.visible = true,dialog.running = true
     }
 
     Timer {

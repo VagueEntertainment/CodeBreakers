@@ -1,6 +1,8 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import QtQuick.LocalStorage 2.0 as Sql
+import QtQuick.Window 2.0
+
 
 import "main.js" as Scripts
 
@@ -14,8 +16,11 @@ MainView {
 
     applicationName: "codebreakers.vagueentertainment"
 
-    width: units.gu(175)
-    height: units.gu(150)
+    //width: units.gu(175)
+    //height: units.gu(150)
+    width:Screen.width
+    height:Screen.height
+
 
     property var db : Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
     property int reset: 0
@@ -29,20 +34,21 @@ MainView {
     property int combo:1
     property var previous: [0]
 
+    property int numofplayers: 1
+
 
     property var code: [0]
 
-    property var column0: [0]
-    property var column1: [0]
-    property var column2: [0]
-    property var column3: [0]
-    property var column4: [0]
-    property var column5: [0]
-    property var column6: [0]
-    property var column7: [0]
+
 
     property string name: "ABC"
     property string date: "No Date"
+
+    property string devId: "Vag-01001011"
+    property string appId: "sys76Cod-0115"
+    property int gamemode: 0
+
+    property var dict: [""]
 
 
     onLevelChanged:talkingBox.level = level
@@ -83,10 +89,11 @@ MainView {
             height:parent.height
             visible:false
 
-            onVisibleChanged: if(visible == true) {gameBoard.visible = true} else {gameBoard.visible = false}
 
-        GameBoard {
-            id:gameBoard
+            //onVisibleChanged: if(visible == true)
+
+        Game1 {
+            id:gameBoard1
 
             //anchors.horizontalCenter: parent.horizontalCenter
             anchors.top:parent.top
@@ -133,6 +140,73 @@ MainView {
 
         }
 
+        Item {
+            id:mpgame
+            width:parent.width
+            height:parent.height
+            visible:false
+
+
+            //onVisibleChanged: if(visible == true)
+
+
+
+        Game1 {
+           // id:gameBoard1
+
+            //anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top:parent.top
+            anchors.topMargin: parent.height * 0.01
+            width:parent.width / 3
+            anchors.left:parent.left
+            anchors.leftMargin: parent.height * 0.01
+            height:parent.height * 0.96
+           // clip:true
+            visible: mpgame.visible
+        }
+
+        ScoreBoard {
+          //  id:scoreBoard
+
+            //anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top:parent.top
+            anchors.topMargin: parent.height * 0.01
+            anchors.right:parent.right
+            anchors.rightMargin: parent.height * 0.01
+            width:units.gu(50)
+            height:units.gu(50)
+        }
+
+
+    DialogBox {
+      //  id:talkingBox
+        width:parent.width
+        height:parent.height / 2
+
+        anchors.right:parent.right
+        anchors.bottom:parent.bottom
+        //visible: false
+    }
+
+
+    Info {
+        //id:infoWindow
+        anchors.horizontalCenter: parent.horizontalCenter
+        width:parent.width * 0.6
+        height:parent.height * 0.3
+        state:"Hide"
+    }
+
+        }
+
+
+
+        Challenges {
+            id:challenges
+            anchors.fill:parent
+            visible: false
+        }
+
         EndScreen {
             id:endScreen
             anchors.fill: parent
@@ -140,7 +214,7 @@ MainView {
         }
 
         Rectangle {
-            visible: if(gameBoard.visible == 1) {true} else {false}
+            visible: if(gameBoard1.visible == 1) {true} else {false}
             anchors.bottom:bg.bottom
             anchors.bottomMargin: bg.height * 0.01
             anchors.right: bg.right
@@ -162,7 +236,7 @@ MainView {
 
             MouseArea {
                 anchors.fill:parent
-                onClicked: game.visible = false,mainMenu.visible = true
+                onClicked: Scripts.cleargame(),game.visible = false,mainMenu.visible = true
             }
 
         }

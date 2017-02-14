@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
+import "main.js" as Scripts
+
 Item {
     id:window_container
 
@@ -71,14 +73,14 @@ Item {
                }
         }
 
-        Text {
+      /*  Text {
             anchors.top:title.top
             anchors.left:title.right
             rotation: 35
             text:"Demo"
             color:"Orange"
             font.pixelSize: parent.height * 0.1
-        }
+        } */
 
 
         Column {
@@ -104,10 +106,15 @@ Item {
 
                  Text {
                      anchors.centerIn: parent
-                     text: "story mode"
+                     text: "single player"
                      font.pixelSize: parent.height * 0.5
                      font.family: pixeltext.name
-                     color:'gray'
+                     color:'white'
+                 }
+                 MouseArea {
+                     anchors.fill: parent
+                     //onClicked: Scripts.cleargame(),mainMenu.visible = false,game.visible = true
+                     onClicked: Scripts.cleargame(),mainMenu.visible = false, challenges.visible = true
                  }
              }
 
@@ -124,16 +131,19 @@ Item {
 
         Text {
             anchors.centerIn: parent
-            text: "challenge"
+            text: "multiplayer"
             font.pixelSize: parent.height * 0.5
             font.family: pixeltext.name
             color:'white'
         }
-
         MouseArea {
             anchors.fill: parent
-            onClicked: mainMenu.visible = false,game.visible = true
+            //onClicked: Scripts.cleargame(),mainMenu.visible = false,game.visible = true
+            onClicked: Scripts.cleargame(),mainMenu.visible = false, mpgame.visible = true
         }
+
+
+
     }
 
 
@@ -157,15 +167,15 @@ Item {
 
         Text {
             anchors.centerIn: parent
-            text: "settings"
+            text: "score board"
             font.pixelSize: parent.height * 0.5
             font.family: pixeltext.name
-            color:'gray'
+            color:'white'
         }
 
         MouseArea {
             anchors.fill:parent
-            onClicked: Qt.quit()
+            onClicked: endScreen.visible = true
         }
     }
 
@@ -203,6 +213,13 @@ Image {
     fillMode: Image.PreserveAspectFit
     width:parent.width * 0.2
 
+    Text {
+        anchors.bottom:parent.bottom
+        anchors.right:parent.right
+        //anchors.bottomMargin:parent.height * 0.2
+        color:"white"
+        text:"0.5.4.6"
+    }
 }
 
 }

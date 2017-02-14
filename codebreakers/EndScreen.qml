@@ -5,7 +5,10 @@ import "main.js" as Scripts
 Item {
     id:window_container
     onVisibleChanged: if(visible == true) {Scripts.scoreboardLoad()} else {Scripts.scoreboardLoad()}
-    Component.onCompleted: Scripts.scoreboardLoad()
+   // Component.onCompleted: Scripts.scoreboardLoad()
+    property int alreadysaved: 0
+    property string highestname: ""
+    property string highestscore: ""
 
     Image {
         id:backing
@@ -55,14 +58,15 @@ Item {
         anchors.top:backing.top
         anchors.topMargin: backing.height * 0.1
         font.family: pixeltext.name
-        text:"access granted"
+        text:if(level >= 3) {"access granted"} else {"high scores"}
         color:"Yellow"
         font.pixelSize: backing.height * 0.06
     }
 
     Text {
         id:players
-        text:name.toLowerCase()
+        text:if(level >= 3) {name.toLowerCase()} else {highestname.toLowerCase()}
+        //visible: if(level >= 3) {true} else {false}
 
         anchors.left:backing.left
         anchors.leftMargin: backing.height * 0.05
@@ -82,6 +86,7 @@ Item {
             anchors.left:parent.right
             anchors.leftMargin:parent.height * 0.02
             source:"qrc:/Img/edit.svg"
+            visible: if(level >= 3) {true} else {false}
         }
 
         TextInput {
@@ -95,6 +100,7 @@ Item {
             font.family: pixeltext.name
             font.capitalization: Font.AllLowercase
             onTextChanged: name = text
+            visible: if(level >= 3) {true} else {false}
 
         }
 
@@ -102,17 +108,19 @@ Item {
 
 
     Text {
+        //visible: if(level >= 3) {true} else {false}
         anchors.right: backing.right
         anchors.rightMargin: backing.height * 0.05
         anchors.top:title.bottom
         anchors.topMargin: backing.height * 0.05
-        text:hiscore
+        text:if(level >=3) {score} else {highestscore}
         font.family: pixeltext.name
         color:"Yellow"
         font.pixelSize: backing.height * 0.06
     }
 
     Rectangle {
+        visible: if(level >= 3) {true} else {false}
         anchors.top:players.bottom
         anchors.topMargin: backing.height * 0.01
         anchors.right: backing.right
@@ -127,14 +135,17 @@ Item {
         Text {
             anchors.centerIn: parent
             font.family: pixeltext.name
-            color:"Yellow"
+            color:if(alreadysaved == 0) {"Yellow"} else {
+                    "Gray"
+                  }
+
             font.pixelSize: parent.height * 0.5
             text: "save"
         }
 
         MouseArea {
             anchors.fill:parent
-            onClicked: Scripts.scoreboardSave(name,hiscore)
+            onClicked: if(alreadysaved == 0) {Scripts.scoreboardSave(name,score),alreadysaved =1} else { }
         }
 
     }

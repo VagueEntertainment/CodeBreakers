@@ -8,7 +8,7 @@
         <file>Score.qml</file>
         <file>Tile.qml</file>
         <file>GameColumn.qml</file>
-        <file>GameBoard.qml</file>
+        <file>Game1.qml</file>
         <file>DialogBox.qml</file>
         <file>ScoreBoard.qml</file>
         <file>Img/lock.png</file>
@@ -45,5 +45,17 @@
         <file>Img/background-s1.png</file>
         <file>Img/s1lock.png</file>
         <file>Img/edit.svg</file>
+        <file>Challenges.qml</file>
+        <file>en_dict.js</file>
+        <file>PlayerSelectScreen.qml</file>
+        <file>Img/RB/MP/1_Angry_HandsOut.png</file>
+        <file>Img/RB/MP/1_Angry_HandsUp.png</file>
+        <file>Img/RB/MP/1_Confused_HandsOut.png</file>
+        <file>Img/RB/MP/1_Confused_HandsUp.png</file>
+        <file>Img/RB/MP/1_Happy.png</file>
+        <file>Img/RB/MP/1_Happy_HandsUp.png</file>
+        <file>Img/RB/MP/1_Happy_Pointing.png</file>
+        <file>Img/RB/MP/1_Open.png</file>
+        <file>Img/RB/MP/1_Open_Pointing.png</file>
     </qresource>
 </RCC>

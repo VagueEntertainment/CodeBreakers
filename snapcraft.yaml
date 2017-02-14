@@ -1,13 +1,13 @@
 name: codebreakers
-version: 0.5.4.2
+version: 0.5.4.8
 summary: Guess the code and unlock RogueBot Central
-description: Game similar to mastermind, pit yourself against progressively harder codes as you try to unlock new areas, and puzzle types
+description: Digital escape room game where you pit yourself against progressively harder codes as you try to unlock new areas, and puzzle types.
 confinement: strict
 
 apps:
   codebreakers:
-    command: codebreakers.wrapper
-    plugs: [unity7,opengl,x11,pulseaudio,home]
+    command: desktop-launch $SNAP/bin/codebreakers
+    plugs: [unity7,opengl,x11,pulseaudio,network,process-control]
 
 parts:
   codebreakers:
@@ -15,9 +15,6 @@ parts:
     source: deploy/
     stage-packages:
       - ubuntu-sdk-libs
-      - qtubuntu-desktop
-      - qtmir-desktop
-      - mir-graphics-drivers-desktop
-
+    after: [desktop-qt5]
 
 

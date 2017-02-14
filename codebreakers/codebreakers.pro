@@ -40,3 +40,6 @@ snapcraft {
     target.path = /deploy/bin
     INSTALLS+=target wrapper
 }
+
+DISTFILES += \
+    ATile.qml
