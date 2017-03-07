@@ -1,32 +1,41 @@
-# This is the basic qmake template for the Ubuntu-SDK
-# it handles creation and installation of the manifest
-# file and takes care of subprojects
-TEMPLATE = subdirs
+TEMPLATE = app
 
-SUBDIRS += codebreakers
+QT += qml quick
+CONFIG += c++11
 
-# enables/disabled the extra targets to build a snapcraft package
-# also tells the IDE this is a snapcraft project
-CONFIG += snapcraft
+SOURCES += main.cpp
 
-snapcraft {
+RESOURCES += qml.qrc
 
-    SNAPCRAFT_FILE=snapcraft.yaml
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
 
-    #the Ubuntu SDK IDE uses the snap target to create the package
-    snappy.target = snap
-    snappy.commands = cd $$OUT_PWD
-    snappy.commands += && rm -rf '$$OUT_PWD/snap-deploy'
-    snappy.commands += && make INSTALL_ROOT=$$OUT_PWD/snap-deploy install
-    snappy.commands += && cd $$OUT_PWD/snap-deploy
-    snappy.commands += && snapcraft
+# Additional import path used to resolve QML modules just for Qt Quick Designer
+QML_DESIGNER_IMPORT_PATH =
 
-    OTHER_FILES+=$$SNAPCRAFT_FILE
-    QMAKE_EXTRA_TARGETS += snappy
+# The following define makes your compiler emit warnings if you use
+# any feature of Qt which as been marked deprecated (the exact warnings
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
 
-    packaging.files = $$SNAPCRAFT_FILE
-    packaging.path  = /
+# You can also make your code fail to compile if you use deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-    INSTALLS+=packaging
-}
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

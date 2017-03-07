@@ -8,4 +8,9 @@ Window {
     title: qsTr("CodeBreakers")
 
 
+    Menu {
+        width:parent.width
+        height:parent.height
+    }
+
 }
