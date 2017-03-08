@@ -26,7 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+else: unix:!android: target.path = /bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
