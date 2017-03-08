@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=codebreakers
+Exec=codebreakers
+TryExec=codebreakers
+Icon=${SNAP}/meta/gui/codebreakers.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
