@@ -295,7 +295,7 @@ function nextLine() {
     case 11: message = "you should just stop while you're ahead";emotion = 4;messagedur = 4000;break;
     case 12: message = "hey i have an idea...stop and i'll give you whatever money i have on me";emotion = 5;messagedur = 6000;break;
     case 13: message = "this will stop you, for sure"; emotion = 1;messagedur = 4000;break;
-    case 14: message = "how can this be?!!!"; emotion = 6;messagedur = 4000;break;
+    case 14: message = "how can this be!!!"; emotion = 6;messagedur = 4000;break;
     default: message = "i told them that croma locks were a bad idea"; emotion = 6;messagedur = 4000;break;
 }}
 
@@ -309,7 +309,7 @@ function nextLine() {
     case 6: message = "I did this one in 10 seconds flat"; emotion = 1;messagedur = 4000;break;
     case 7: message = "how can this be!!!"; emotion = 6;messagedur = 4000;break;
 
-    case 8: message = "Tick-tock goes the clock. Can you get it done in time?";emotion = 1;messagedur = 6000;break;
+    case 8: message = "Tick-tock goes the clock. Can you get it done in time";emotion = 1;messagedur = 6000;break;
     case 9: message = "RB1 was right you are good at these!";emotion = 5;messagedur = 6000;break;
     case 10: message = "last one! time to bring it home";emotion = 1;messagedur = 7000;break;
     default: message = "i told them that croma locks were a bad idea"; emotion = 6;messagedur = 4000;break;
@@ -354,7 +354,7 @@ function scoreboardSave(name,score) {
 
     var http = new XMLHttpRequest();
 
-    var url = "http://openseed.vagueentertainment.com/devs/Vag-01001011/sys76Cod-0115/update.php";
+    var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/sys76Cod-0115/update.php";
   // console.log(url)
     http.onreadystatechange = function() {
         if (http.readyState == 4) {
@@ -422,7 +422,7 @@ function scoreboardLoad() {
 
     var http = new XMLHttpRequest();
 
-    var url = "http://openseed.vagueentertainment.com/devs/Vag-01001011/sys76Cod-0115/update.php";
+    var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/sys76Cod-0115/update.php";
    //console.log(url)
     http.onreadystatechange = function() {
         if (http.readyState == 4) {
@@ -488,7 +488,7 @@ function loadhi() {
 
         var http = new XMLHttpRequest();
 
-        var url = "http://openseed.vagueentertainment.com/devs/Vag-01001011/sys76Cod-0115/update.php";
+        var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/sys76Cod-0115/update.php";
      //  console.log(url)
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
